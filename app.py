@@ -1,5 +1,6 @@
-from flask import Flask , request
+from flask import Flask , request 
 import requests
+import flask
 
 app = Flask(__name__)
 
@@ -8,9 +9,11 @@ app = Flask(__name__)
 def news(parameters):
     response = requests.get('https://newsapi.org/v2/everything?'+parameters)
     response.raise_for_status
-    return response.json()
+    res = flask.jsonify(response.json())
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
     
     
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
         
